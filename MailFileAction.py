@@ -9,14 +9,14 @@ import ssl
 
 class MailFileAction(FileAction):
 
-    def __init__(self, mail: str, smtp_config: SmtpConfig, email_config: EmailConfig):
-        self.mail = mail
+    def __init__(self, target_mail: str, smtp_config: SmtpConfig, email_config: EmailConfig):
+        self.target_mail = target_mail
         self.__smtp_config = smtp_config
         self.__email_config = email_config
 
     def execute(self, file: Path):
         """Execute an action on the given file path"""
-        # alias the config object to make access easier
+        # alias the config objects to make access easier
         smtp_conf = self.__smtp_config
         mail_conf = self.__email_config
 
@@ -25,7 +25,7 @@ class MailFileAction(FileAction):
         msg['Message-ID'] = mail_conf.get_messge_id()
         msg['Subject'] = mail_conf.subject
         msg['From'] = smtp_conf.mail_from
-        msg['To'] = self.mail
+        msg['To'] = self.target_mail
         msg.set_content(mail_conf.body)
 
         try:

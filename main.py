@@ -13,8 +13,6 @@ import yaml
 
 
 # initial setup
-
-
 config = None
 try:
     with open("config.yaml", "r") as config_file:
@@ -23,10 +21,14 @@ except Exception as e:
     print("ERORR: failed to open config.yaml! Aborting...")
     exit(-1)
 
+# alias the config file to make access easier
 path_config = config['paths']
+# create a SmtpConfig object from the dict
 smtp_config = SmtpConfig(**config['smtp'])
+# create a EmailConfig object from the dict
 email_config = EmailConfig(**config['email'])
 
+# create Path objects to make handling easier
 scan_path = Path(path_config['document_path'])
 archive_path = Path(path_config['archive_path'])
 mapping_file = Path(path_config['mapping_file'])
