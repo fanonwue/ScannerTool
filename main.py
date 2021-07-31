@@ -17,6 +17,7 @@ config = None
 try:
     with open("config.yaml", "r") as config_file:
         config = yaml.safe_load(config_file)
+        print("Successfully read config.yaml")
 except Exception as e:
     print("ERORR: failed to open config.yaml! Aborting...")
     exit(-1)
@@ -38,6 +39,7 @@ mapping_entries = []
 
 # read config file
 with open(mapping_file.resolve()) as csvfile:
+    print("Reading mapping csv...")
     reader = csv.reader(csvfile, delimiter=";")
     # skip header
     next(reader, None)
@@ -56,8 +58,10 @@ with open(mapping_file.resolve()) as csvfile:
         if entry.has_actions():
             mapping_entries.append(entry)
 
+print(f"Read {len(mapping_entries)} mapping entries.")
 
 # get all files (excluding directories)
+print("Scanning for files...")
 files = filter(Path.is_file, scan_path.iterdir())
 
 regex_config = config['regex']
@@ -68,8 +72,13 @@ if regex_config['enabled']:
     files = filter(re.compile(pattern).match, files)
     files = map(lambda x: Path(x), files)
 
+# Create a list that the files can be counted
+files = list(files)
+print(f"Found {len(files)} files in target directory.")
 
+print("Executing actions on files...")
 for file in files:
+    print(f"Handling file {file.name}")
     for mapping_entry in mapping_entries:
         if file.name.upper().startswith(mapping_entry.prefix.upper()):
             mapping_entry.execute_actions(file)
@@ -77,3 +86,5 @@ for file in files:
             # if file hasn't been moved by an action
             if file.exists():
                 os.rename(file, archive_path.joinpath(file.name))
+
+print("done.")

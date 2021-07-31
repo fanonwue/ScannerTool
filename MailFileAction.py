@@ -35,7 +35,7 @@ class MailFileAction(FileAction):
                 msg.add_attachment(content, maintype="application", subtype="pdf", filename=file.name)
 
         except Exception as e:
-            print(f"Error opening file at {file.absolute()}", e)
+            print(f"ERROR: can't opening file at {file.absolute()}", e)
             # it's useless to send an email without any file attached, so just stop here
             return
 
@@ -51,7 +51,7 @@ class MailFileAction(FileAction):
             server.login(smtp_conf.username, smtp_conf.password)
             server.send_message(msg)
         except Exception as e:
-            print(e)
+            print("ERROR: SMTP connection failed", e)
         finally:
             if server:
                 server.quit()
