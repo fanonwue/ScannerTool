@@ -13,12 +13,12 @@ class SmtpConfig:
 
     @staticmethod
     def get_default():
-        # TODO make a config file instead of hardcoding
+        """creates a default object for testing purposes"""
         config = {
-            "host": "mail.wuenderich.de",
+            "host": "smtp.domain.com",
             "port": 587,
-            "username": "<redacted>",
-            "password": "<redacted>",
+            "username": "user",
+            "password": "password",
             "starttls": True,
             "mail_from": None
         }

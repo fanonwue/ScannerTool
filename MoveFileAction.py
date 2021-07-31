@@ -12,4 +12,3 @@ class MoveFileAction(FileAction):
         """Move the file at the given path
         to the path stored in this object"""
         os.rename(file, self.path)
-        pass

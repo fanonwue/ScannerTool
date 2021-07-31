@@ -1,0 +1,20 @@
+smtp:
+  host: smtp.domain.com
+  port: 587
+  username: user
+  password: password
+  starttls: yes
+  mail_from:
+
+paths:
+  document_path: M:/Scans
+  archive_path: M:/Scans/Archiv
+  mapping_file: M:/Scans/config/mapping.csv
+
+email:
+  subject: Gescanntes Dokument
+  body: Im Anhang befindet sich das gescannte Dokument.
+
+regex:
+  enabled: yes
+  pattern: \S+_\d+.pdf
